@@ -1,0 +1,26 @@
+Name: json-c
+Summary: A JSON implementation in C
+Version: 0.9
+Release: 0
+Group: Multimedia/PulseAudio
+License: MIT
+URL: http://oss.metaparadigm.com/json-c/
+
+Sources:
+    - http://oss.metaparadigm.com/json-c/%{name}-%{version}.tar.gz
+
+Description: |
+    JSON-C implements a reference counting object model that allows you to
+    easily construct JSON objects in C, output them as JSON formatted strings
+    and parse JSON formatted strings back into the C representation of JSON
+    objects.
+
+Configure: configure
+
+SubPackages:
+    - Name: devel
+      Summary: Development files for %{name}
+      Group: Development/Libraries
+      Description: |
+          The %{name}-devel package contains libraries and header files for
+          developing applications that use %{name}.
