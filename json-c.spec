@@ -9,13 +9,14 @@ Name:       json-c
 # << macros
 
 Summary:    A JSON implementation in C
-Version:    0.9
+Version:    0.12
 Release:    0
 Group:      Multimedia/PulseAudio
 License:    MIT
 URL:        http://oss.metaparadigm.com/json-c/
 Source0:    http://oss.metaparadigm.com/json-c/%{name}-%{version}.tar.gz
 Source100:  json-c.yaml
+Patch0:     json-c-0.12-remove-unused-but-set-var.patch
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 
@@ -39,6 +40,8 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{name}-%{version}
+# json-c-0.12-remove-unused-but-set-var.patch
+%patch0 -p1
 
 # >> setup
 # << setup
@@ -77,7 +80,7 @@ rm -rf %{buildroot}
 %files devel
 %defattr(-,root,root,-)
 # >> files devel
-%{_includedir}/json/*
+%{_includedir}/json-c/*
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/*
 # << files devel
