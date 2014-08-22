@@ -1,6 +1,6 @@
 Name: json-c
 Summary: A JSON implementation in C
-Version: 0.9
+Version: 0.12
 Release: 0
 Group: Multimedia/PulseAudio
 License: MIT
@@ -8,6 +8,9 @@ URL: http://oss.metaparadigm.com/json-c/
 
 Sources:
     - http://oss.metaparadigm.com/json-c/%{name}-%{version}.tar.gz
+
+Patches:
+    - json-c-0.12-remove-unused-but-set-var.patch
 
 Description: |
     JSON-C implements a reference counting object model that allows you to
