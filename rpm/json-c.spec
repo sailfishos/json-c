@@ -32,6 +32,7 @@ developing applications that use %{name}.
 %setup -q -n %{name}-%{version}/%{name}
 
 %build
+./autogen.sh
 %configure --disable-static
 make %{?jobs:-j%jobs}
 
