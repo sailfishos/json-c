@@ -1,26 +1,24 @@
 Name:       json-c
-
-Summary:    A JSON implementation in C
-Version:    0.13.1
-Release:    0
-Group:      Multimedia/PulseAudio
+Summary:    JSON implementation in C
+Version:    0.15
+Release:    1
 License:    MIT
-URL:        http://oss.metaparadigm.com/json-c/
-Source0:    http://oss.metaparadigm.com/json-c/%{name}-%{version}.tar.gz
-
-Requires(post): /sbin/ldconfig
+URL:        https://github.com/json-c/json-c/wiki
+Source0:    %{name}-%{version}.tar.bz2
+BuildRequires:    cmake
+BuildRequires:    ninja
+Requires(post):   /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 
 %description
-JSON-C implements a reference counting object model that allows you to
-easily construct JSON objects in C, output them as JSON formatted strings
-and parse JSON formatted strings back into the C representation of JSON
-objects.
+JSON-C implements a reference counting object model that allows you
+to easily construct JSON objects in C, output them as JSON formatted
+strings and parse JSON formatted strings back into the C representation
+of JSON objects.  It aims to conform to RFC 7159.
 
 
 %package devel
 Summary:    Development files for %{name}
-Group:      Development/Libraries
 Requires:   %{name} = %{version}-%{release}
 
 %description devel
@@ -29,16 +27,20 @@ developing applications that use %{name}.
 
 
 %prep
-%setup -q -n %{name}-%{version}/%{name}
+%autosetup -n %{name}-%{version}/%{name}
 
 %build
-./autogen.sh
-%configure --disable-static
-make %{?jobs:-j%jobs}
+%cmake \
+    -DBUILD_STATIC_LIBS:BOOL=OFF \
+    -DCMAKE_BUILD_TYPE:STRING=RELEASE \
+    -G Ninja
+%ninja_build
 
 %install
-rm -rf %{buildroot}
-%make_install
+%ninja_install
+
+%check
+LD_LIBRARY_PATH=$PWD ctest --output-on-failure --force-new-ctest-process %{?_smp_mflags}
 
 %post -p /sbin/ldconfig
 
@@ -46,11 +48,13 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc COPYING
+%license COPYING
 %{_libdir}/*.so.*
 
 %files devel
 %defattr(-,root,root,-)
-%{_includedir}/json-c/*
+%doc AUTHORS ChangeLog README*
+%{_includedir}/%{name}/
 %{_libdir}/*.so
-%{_libdir}/pkgconfig/*
+%{_libdir}/cmake/%{name}/
+%{_libdir}/pkgconfig/%{name}.pc
