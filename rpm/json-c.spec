@@ -1,6 +1,6 @@
 Name:       json-c
 Summary:    JSON implementation in C
-Version:    0.15
+Version:    0.18
 Release:    1
 License:    MIT
 URL:        https://github.com/json-c/json-c/wiki
@@ -31,6 +31,7 @@ developing applications that use %{name}.
 
 %build
 %cmake \
+    -DBUILD_APPS:BOOL=OFF \
     -DBUILD_STATIC_LIBS:BOOL=OFF \
     -DCMAKE_BUILD_TYPE:STRING=RELEASE \
     -G Ninja
@@ -47,12 +48,10 @@ LD_LIBRARY_PATH=$PWD ctest --output-on-failure --force-new-ctest-process %{?_smp
 %postun -p /sbin/ldconfig
 
 %files
-%defattr(-,root,root,-)
 %license COPYING
 %{_libdir}/*.so.*
 
 %files devel
-%defattr(-,root,root,-)
 %doc AUTHORS ChangeLog README*
 %{_includedir}/%{name}/
 %{_libdir}/*.so
